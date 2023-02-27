@@ -2,7 +2,9 @@ package com.springboot.springbootpractice.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -10,9 +12,11 @@ import java.util.List;
  * @author Marko
  * @Date 22/02/2023
  */
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-public class Teacher {
+public class Teacher extends Auditable<String> implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -24,5 +28,7 @@ public class Teacher {
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Course> specializedCourses;
+
+    private boolean isActive;
 
 }
