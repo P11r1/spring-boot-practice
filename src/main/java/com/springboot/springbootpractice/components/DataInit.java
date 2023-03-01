@@ -28,12 +28,19 @@ import java.util.Collections;
 public class DataInit {
     @Autowired
     private SchoolService schoolService;
+    @Autowired
     private CourseService courseService;
+    @Autowired
     private StudentService studentService;
+    @Autowired
     private TeacherService teacherService;
+
     @PostConstruct
     public void init() {
         initSchool();
+        initCourse();
+        initTeacher();
+        initStudent();
     }
 
     // PRIVATE METHODS //
