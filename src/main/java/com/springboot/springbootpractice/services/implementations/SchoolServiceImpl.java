@@ -1,8 +1,12 @@
 package com.springboot.springbootpractice.services.implementations;
 
+import com.springboot.springbootpractice.exceptions.CourseNotFoundException;
 import com.springboot.springbootpractice.exceptions.SchoolNotFoundException;
+import com.springboot.springbootpractice.models.Course;
 import com.springboot.springbootpractice.models.School;
+import com.springboot.springbootpractice.repositories.CourseRepository;
 import com.springboot.springbootpractice.repositories.SchoolRepository;
+import com.springboot.springbootpractice.services.CourseService;
 import com.springboot.springbootpractice.services.SchoolService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -24,6 +28,10 @@ import java.util.Optional;
 public class SchoolServiceImpl implements SchoolService {
     @Autowired
     private SchoolRepository schoolRepository;
+
+    @Autowired
+    private CourseService courseService;
+
     @Override
     public void createSchool(School school) {
         school.setActive(true);
@@ -63,11 +71,15 @@ public class SchoolServiceImpl implements SchoolService {
     }
 
     @Override
-    public void deleteSchoolByID(Long id) throws SchoolNotFoundException {
+    public void deleteSchoolByID(Long id) throws SchoolNotFoundException, CourseNotFoundException {
         School school = findSchoolById(id);
       //  schoolRepository.delete(school); // To delete the record completely
         school.setActive(false);
         schoolRepository.saveAndFlush(school);
+
+        for (Course course:courseService.findAllCoursesBySchool(school)) {
+            courseService.deleteCourseById(course.getId());
+        }
     }
 
     @Override
