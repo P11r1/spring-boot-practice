@@ -83,9 +83,14 @@ public class SchoolServiceImpl implements SchoolService {
     }
 
     @Override
-    public void restoreSchoolByID(Long id) throws SchoolNotFoundException {
+    public void restoreSchoolByID(Long id) throws SchoolNotFoundException, CourseNotFoundException {
         School school = findSchoolById(id);
         school.setActive(true);
         schoolRepository.saveAndFlush(school);
+
+        // Find all the course belong to the school and restore the respective courses
+        for (Course course: courseService.findAllCoursesBySchool(school)) {
+            courseService.restoreCourseById(course.getId());
+        }
     }
 }
