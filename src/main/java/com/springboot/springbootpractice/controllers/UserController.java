@@ -48,6 +48,7 @@ public class UserController {
             redirectAttributes.addFlashAttribute("messageType", "error");
             return "redirect:/school/signup";
         } catch (UserNotFoundException e) {
+            userService.createUser(user);
             redirectAttributes.addFlashAttribute("message", "Signup successful!");
             redirectAttributes.addFlashAttribute("messageType", "error");
             return "redirect:/";

@@ -1,10 +1,11 @@
 package com.springboot.springbootpractice.models;
 
-import jakarta.persistence.*;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 
